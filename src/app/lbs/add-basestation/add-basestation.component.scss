@@ -1,0 +1,25 @@
+mgl-map {
+  // position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 500px;
+  transition: all 0.3s;
+  cursor: pointer;
+
+  ::ng-deep button {
+    &:not(:disabled):hover {
+      background-color: #fff;
+      &.button--primary {
+        background-color: #356199;
+      }
+    }
+  }
+
+
+  .mapboxgl-ctrl-attrib-button {
+    display: none;
+  }
+
+}
+

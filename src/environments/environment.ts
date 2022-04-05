@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  mapHost: 'http://10.10.12.161:3009/styles/osm-bright/style.json'
 };
 
 /*

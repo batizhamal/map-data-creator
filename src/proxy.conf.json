@@ -1,0 +1,10 @@
+{
+  "/v1": {
+    "target": "http://10.10.12.166:8989",
+    "secure": false,
+    "pathRewrite": {
+      "^/v1": ""
+    },
+    "logLevel": "debug"
+  }
+}
