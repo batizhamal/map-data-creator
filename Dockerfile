@@ -10,7 +10,7 @@ RUN npm ci
 
 # build bundle
 COPY . .
-RUN npm run build:dev
+RUN npm run build:prod
 
 # nginx config
 FROM nginx:alpine
