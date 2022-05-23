@@ -1,3 +1,4 @@
+<p>Текущая карта:  {{ googleTileStylesIsActive ? 'Google' : 'OSM' }}</p>
 <mgl-map
 [style]="googleTileStylesIsActive ? googleTileStyles : mapUrl"
 [zoom]="[5]"
