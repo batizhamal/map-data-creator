@@ -79,7 +79,11 @@ export class AddBasestationComponent implements OnInit {
 
   icons = Icons;
 
-  mapUrl = new GoogleTiles();
+  googleTileStyles = new GoogleTiles();
+
+  mapUrl = 'http://10.10.12.161:9696/styles/osm-bright/style.json';
+
+  googleTileStylesIsActive = false;
 
   featureCollectionPoints: Feature<Point>[] = [];
 

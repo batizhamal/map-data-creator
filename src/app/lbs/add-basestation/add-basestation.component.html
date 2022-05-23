@@ -1,5 +1,5 @@
 <mgl-map
-[style]="mapUrl"
+[style]="googleTileStylesIsActive ? googleTileStyles : mapUrl"
 [zoom]="[5]"
 [center]="[ 70.1913, 48.8811]"
 (click)="addBasestationPoint($event)"
@@ -33,5 +33,28 @@
     }"
    >
   </mgl-layer>
+
+
+  <mgl-control position="bottom-right">
+    <div class="switch">
+      <button
+        class="button button-legend"
+        (click)="googleTileStylesIsActive = false"
+        [class.button--primary]="!googleTileStylesIsActive"
+      >
+        OSM
+      </button>
+
+      <button
+        class="button"
+        (click)="googleTileStylesIsActive = true"
+        [class.button--primary]="googleTileStylesIsActive"
+      >
+        Google Maps
+      </button>
+    </div>
+  </mgl-control>
 </mgl-map>
+
+
 
