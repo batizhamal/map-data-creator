@@ -1,0 +1,27 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Адрес</th>
+            <th scope="col">код Региона</th>
+            <th scope="col">Тип</th>
+            <th scope="col">Lac</th>
+            <th scope="col">Cell</th>
+            <th scope="col">Широта</th>
+            <th scope="col">Долгота</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let basestation of basestations; let i = index">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ basestation.address }}</td>
+            <td>{{ basestation.region }}</td>
+            <td>{{ basestation.radioType }}</td>
+            <td>{{ basestation.lac }}</td>
+            <td>{{ basestation.cell }}</td>
+            <td>{{ basestation.latitude }}</td>
+            <td>{{ basestation.longitude }}</td>
+            <td><button (click)="deleteBasestation(basestation)" class="btn btn-danger">Удалить</button></td>
+        </tr>
+    </tbody>
+</table>
