@@ -2,66 +2,68 @@
 	<div class="header">Mock-LBS API</div>
 
 	<div class="toolbar">
-			<button *ngIf="true" (click)="addBasestations()" type="button" class="button button-legend button--primary">
-				Отправить данные
-			</button>
-	</div>
-	<app-add-basestation class="map-wrapper" (markPoint)="setLngLat($event)"> </app-add-basestation>
-</div>
-
-<ng-template #content let-modal>
-	<div class="modal-header">
-		<h4 class="modal-title" id="modal-basic-title">Базовая станция</h4>
-		<button type="button" class="btn btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-			Закрыть
+		<button *ngIf="true" (click)="addBasestations()" type="button" class="button button-legend button--primary">
+			Отправить данные
 		</button>
 	</div>
-	<div class="modal-body">
-		<form [formGroup]="basestationForm">
-			<div class="form-group">
-				<label for="lac" class="col-form-label">Lac:</label>
-				<input formControlName="lac" type="number" class="form-control" id="lac" />
-			</div>
-			<div class="form-group">
-				<label for="cell" class="col-form-label">Cell:</label>
-				<input formControlName="cell" type="number" class="form-control" id="cell" />
-			</div>
-			<div class="form-group">
-				<label for="cell" class="col-form-label">Код региона:</label>
-				<input formControlName="region" type="number" class="form-control" id="region" />
-			</div>
-			<div class="form-group">
-				<label>Выберите тип:</label>
-				<div class="form-check">
-					<input class="form-check-input" value="LTE" type="radio" formControlName="radioType" id="LTE" />
-					<label class="form-check-label" for="LTE"> LTE </label>
-				</div>
-				<div class="form-check">
-					<input
-						class="form-check-input"
-						value="GSM"
-						formControlName="radioType"
-						type="radio"
-						id="GSM"
-						checked
-					/>
-					<label class="form-check-label" for="GSM"> GSM </label>
+
+	<app-add-basestation class="map-wrapper" (markPoint)="setLngLat($event)"> </app-add-basestation>
+
+	<app-modal *ngIf="isModalOpen" class="modal-wrapper" title="Базовая станция" (modalClosed)="onModalClosed()">
+		<form content [formGroup]="basestationForm">
+			<div class="field">
+				<div class="field__title bold">Lac:</div>
+				<div class="field__item">
+					<input formControlName="lac" type="text" class="input" name="lac" placeholder="Lac" />
 				</div>
 			</div>
-			<div class="form-group">
-				<label for="address" class="col-form-label">Адрес:</label>
-				<textarea formControlName="address" class="form-control" id="address"></textarea>
+			<div class="field">
+				<div class="field__title bold">Cell:</div>
+				<div class="field__item">
+					<input formControlName="cell" type="text" class="input" name="cell" placeholder="Cell" />
+				</div>
+			</div>
+			<div class="field">
+				<div class="field__title bold">Код региона:</div>
+				<div class="field__item">
+					<input formControlName="region" type="text" class="input" name="region" placeholder="Код региона" />
+				</div>
+			</div>
+
+			<div class="field">
+				<div class="field__title bold">Выберите тип:</div>
+				<div class="field__item">
+					<input value="LTE" formControlName="radioType" type="radio" id="LTE" />
+					<label for="LTE"> LTE </label>
+				</div>
+				<div class="field__item">
+					<input value="GSM" formControlName="radioType" type="radio" id="GSM" checked />
+					<label for="GSM"> GSM </label>
+				</div>
+			</div>
+
+			<div class="field">
+				<div class="field__title bold">Адрес:</div>
+				<div class="field__item">
+					<textarea
+						formControlName="address"
+						type="text"
+						class="textarea"
+						name="address"
+						placeholder="Адрес"
+					></textarea>
+				</div>
 			</div>
 		</form>
-	</div>
-	<div class="modal-footer">
+
 		<button
+			footer
 			[disabled]="basestationForm.invalid"
 			type="button"
-			class="btn btn-outline-dark"
-			(click)="modal.close('Save click')"
+			class="button button--primary button-legend"
+			(click)="save()"
 		>
 			Сохранить
 		</button>
-	</div>
-</ng-template>
+	</app-modal>
+</div>

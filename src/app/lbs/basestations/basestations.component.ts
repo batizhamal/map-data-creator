@@ -29,9 +29,9 @@ export class BasestationsComponent implements OnInit {
 
   @ViewChild("content", { static: true }) input: ElementRef;
 
-
-
   latLng: LatLng;
+
+  isModalOpen: boolean = false;
 
   constructor(
     private modalService: NgbModal,
@@ -78,7 +78,8 @@ export class BasestationsComponent implements OnInit {
 
   setLngLat(latLng: LatLng) {
     this.latLng = latLng;
-    this.open(this.input);
+    // this.open(this.input);
+    this.openModal();
   }
 
   deleteBasestationPoint(latitude: number, longitude: number) {
@@ -96,6 +97,35 @@ export class BasestationsComponent implements OnInit {
       this.basestations = [];
       alert('Данные успешно отправлены');
     })
+  }
+
+  openModal() {
+    this.isModalOpen = true;
+  }
+
+  onModalClosed() {
+    this.isModalOpen = false;
+
+    const {lat: latitude, lng: longitude} = this.latLng;
+    this.deleteBasestationPoint(latitude, longitude);
+
+  }
+  
+  save() {
+    // save record
+    const {lat: latitude, lng: longitude} = this.latLng;
+    const basestation: Basestation = {
+      ...this.basestationForm.value,
+      latitude,
+      longitude
+    }
+    this.basestations.push(basestation);
+    this.latLng = null;
+
+    console.log(this.basestations);
+
+    // close modal 
+    this.isModalOpen = false;
   }
 
 }
