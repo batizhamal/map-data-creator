@@ -44,6 +44,19 @@ body {
 			fill: #fff;
 		}
 	}
+
+	&--warn {
+		border-color: #dc3545;
+		background-color: #dc3545;
+		color: #fff;
+		fill: #fff;
+		transition: border-color 0.25s ease-out;
+
+		&:disabled {
+			pointer-events: none;
+			fill: #fff;
+		}
+	}
 }
 
 .field {
@@ -106,4 +119,78 @@ body {
 
 .bold {
 	font-weight: bold;
+}
+
+.table {
+	display: table;
+	width: 100%;
+	height: auto;
+	border: 0;
+	border-spacing: 0;
+	border-collapse: collapse;
+	background-color: #fff;
+	color: #262626;
+
+	&--zebra-striped,
+	&__row {
+		&:nth-child(odd) {
+			background-color: #ffffff;
+		}
+
+		&:nth-child(even) {
+			background-color: #f9f9f9;
+		}
+	}
+
+	&__thead {
+		display: table-header-group;
+		border-bottom: solid 0.0625rem #dddddd;
+		background-color: #f9f9f9;
+		font-weight: 600;
+
+		vertical-align: middle;
+	}
+
+	&__row {
+		display: table-row;
+		border: solid 0.0625rem #dddddd;
+		border-right: 0;
+		border-left: 0;
+
+		&:last-child {
+			border-bottom: 0;
+		}
+
+		&:first-child {
+			border-top: 0;
+		}
+	}
+
+	&__th {
+		display: table-cell;
+		padding: 0.25rem;
+		border: 0;
+		vertical-align: middle;
+		font-size: inherit;
+		font-weight: inherit;
+		white-space: normal;
+		text-align: left;
+		background-color: transparent;
+	}
+
+	&__tbody {
+		display: table-row-group;
+		vertical-align: middle;
+		border-color: inherit;
+	}
+
+    &__td {
+        display: table-cell;
+        padding: 0.25rem;
+        border: 0;
+        font-size: inherit;
+        font-weight: inherit;
+        text-align: left;
+        background-color: transparent;
+    }
 }

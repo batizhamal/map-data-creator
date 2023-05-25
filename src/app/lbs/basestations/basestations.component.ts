@@ -31,7 +31,8 @@ export class BasestationsComponent implements OnInit {
 
   latLng: LatLng;
 
-  isModalOpen: boolean = false;
+  isCreateModalOpen: boolean = false;
+  isListModalOpen: boolean = false;
 
   constructor(
     private modalService: NgbModal,
@@ -79,7 +80,7 @@ export class BasestationsComponent implements OnInit {
   setLngLat(latLng: LatLng) {
     this.latLng = latLng;
     // this.open(this.input);
-    this.openModal();
+    this.isCreateModalOpen = true;
   }
 
   deleteBasestationPoint(latitude: number, longitude: number) {
@@ -99,16 +100,19 @@ export class BasestationsComponent implements OnInit {
     })
   }
 
-  openModal() {
-    this.isModalOpen = true;
-  }
-
-  onModalClosed() {
-    this.isModalOpen = false;
+  onCreateModalClosed() {
+    this.isCreateModalOpen = false;
 
     const {lat: latitude, lng: longitude} = this.latLng;
     this.deleteBasestationPoint(latitude, longitude);
+  }
 
+  onListModalOpen() {
+    this.isListModalOpen = true;
+  }
+
+  onListModalClosed() {
+    this.isListModalOpen = false;
   }
   
   save() {
@@ -125,7 +129,7 @@ export class BasestationsComponent implements OnInit {
     console.log(this.basestations);
 
     // close modal 
-    this.isModalOpen = false;
+    this.isCreateModalOpen = false;
   }
 
 }
