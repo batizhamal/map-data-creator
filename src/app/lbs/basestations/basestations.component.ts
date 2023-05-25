@@ -92,10 +92,11 @@ export class BasestationsComponent implements OnInit {
         radioType: this.basestationForm.get('radioType').value,
         region: this.basestationForm.get('region').value,
       });
+
+      this.isCreateModalOpen = true;
     }, (error) => {
       console.log(error);
     });
-    this.isCreateModalOpen = true;
   }
 
   deleteBasestationPoint(latitude: number, longitude: number) {
