@@ -10,7 +10,8 @@
 		>
 			Отправить данные
 		</button>
-		<button class="button" type="button" (click)="onListModalOpen()">Список</button>
+		<button class="button button-legend" type="button" (click)="onListModalOpen()">Список</button>
+		<input [(ngModel)]="apiKey" type="text" class="input toolbar__input" name="apiKey" placeholder="API Key">
 	</div>
 
 	<app-add-basestation class="map-wrapper" (markPoint)="setLngLat($event)"> </app-add-basestation>

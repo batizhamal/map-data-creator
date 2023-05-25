@@ -8,7 +8,7 @@ import { Basestation } from './model/basestation';
 export class LbsService {
 	private apiUrl = 'v1';
 
-	private googleApiKey = 'AIzaSyCy5C-BOZl9quQ8oP3oR8sBdmR11V70Mcg';
+	// private googleApiKey = 'AIzaSyCy5C-BOZl9quQ8oP3oR8sBdmR11V70Mcg'; // Batizhamal
 
 	constructor(private readonly http: HttpClient) {}
 
@@ -16,12 +16,12 @@ export class LbsService {
 		return this.http.post(`${this.apiUrl}/base-station`, basestation);
 	}
 
-	getPointAddress(latitude: number, longitude: number) {
+	getPointAddress(latitude: number, longitude: number, apiKey: string) {
 		return this.http.get('https://maps.googleapis.com/maps/api/geocode/json', {
 			params: new HttpParams({
 				fromObject: {
 					latlng: [`${latitude},${longitude}`],
-					key: this.googleApiKey,
+					key: apiKey,
           language: 'ru'
 				}
 			})
