@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+// import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddBasestationComponent, LatLng } from '../add-basestation/add-basestation.component';
 import { LbsService } from '../lbs.service';
 import { Basestation } from '../model/basestation';
@@ -35,51 +35,66 @@ export class BasestationsComponent implements OnInit {
   isListModalOpen: boolean = false;
 
   constructor(
-    private modalService: NgbModal,
+    // private modalService: NgbModal,
     private lbsService: LbsService
   ) { }
 
   ngOnInit(): void {
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
+  // private getDismissReason(reason: any): string {
+  //   if (reason === ModalDismissReasons.ESC) {
+  //     return 'by pressing ESC';
+  //   } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+  //     return 'by clicking on a backdrop';
+  //   } else {
+  //     return `with: ${reason}`;
+  //   }
+  // }
 
   get address() {
     return this.basestationForm.get('address');
   }
 
 
-  open(content) {
-    const {lat: latitude, lng: longitude} = this.latLng;
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'}).result.then((result) => {
+  // open(content) {
+  //   const {lat: latitude, lng: longitude} = this.latLng;
+  //   this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'}).result.then((result) => {
 
 
-      const basestation: Basestation = {
-        ...this.basestationForm.value,
-        latitude,
-        longitude
-      }
-      this.basestations.push(basestation);
-      this.latLng = null;
+  //     const basestation: Basestation = {
+  //       ...this.basestationForm.value,
+  //       latitude,
+  //       longitude
+  //     }
+  //     this.basestations.push(basestation);
+  //     this.latLng = null;
 
 
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.deleteBasestationPoint(latitude, longitude)
-    });
-  }
+  //     this.closeResult = `Closed with: ${result}`;
+  //   }, (reason) => {
+  //     this.deleteBasestationPoint(latitude, longitude)
+  //   });
+  // }
 
   setLngLat(latLng: LatLng) {
     this.latLng = latLng;
     // this.open(this.input);
+
+    this.lbsService.getPointAddress(this.latLng.lat, this.latLng.lng).subscribe((data) => {
+
+      const address = data?.['results']?.[0]?.['formatted_address'];
+
+      this.basestationForm.setValue({
+        address: address,
+        lac: this.basestationForm.get('lac').value,
+        cell: this.basestationForm.get('cell').value,
+        radioType: this.basestationForm.get('radioType').value,
+        region: this.basestationForm.get('region').value,
+      });
+    }, (error) => {
+      console.log(error);
+    });
     this.isCreateModalOpen = true;
   }
 
