@@ -21,7 +21,8 @@ export class LbsService {
 			params: new HttpParams({
 				fromObject: {
 					latlng: [`${latitude},${longitude}`],
-					key: this.googleApiKey
+					key: this.googleApiKey,
+          language: 'ru'
 				}
 			})
 		});
