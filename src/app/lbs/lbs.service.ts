@@ -8,8 +8,6 @@ import { Basestation } from './model/basestation';
 export class LbsService {
 	private apiUrl = 'v1';
 
-	// private googleApiKey = 'AIzaSyCy5C-BOZl9quQ8oP3oR8sBdmR11V70Mcg'; // Batizhamal
-
 	constructor(private readonly http: HttpClient) {}
 
 	addBasestation(basestation: Basestation[]) {
