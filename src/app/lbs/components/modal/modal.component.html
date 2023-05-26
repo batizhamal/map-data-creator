@@ -1,0 +1,16 @@
+<div class="modal-bg">
+	<div class="modal-container">
+		<div class="modal-header">
+			<p>{{ title }}</p>
+		</div>
+
+		<div class="modal-body">
+			<ng-content select="[content]"></ng-content>
+		</div>
+
+		<div class="modal-footer">
+            <ng-content select="[footer]"></ng-content>
+			<button class="button" (click)="closeModal()">Закрыть</button>
+		</div>
+	</div>
+</div>
