@@ -1,61 +1,58 @@
-<p>Текущая карта:  {{ googleTileStylesIsActive ? 'Google' : 'OSM' }}</p>
-<mgl-map
-[style]="googleTileStylesIsActive ? googleTileStyles : mapUrl"
-[zoom]="[5]"
-[center]="[ 70.1913, 48.8811]"
-(click)="addBasestationPoint($event)"
->
-  <mgl-geojson-source
-    id="basestation-points" [data]="basestationPoints"
+<div class="map-block">
+	<!-- <p>Текущая карта: {{ googleTileStylesIsActive ? 'Google' : 'OSM' }}</p> -->
+	<mgl-map
+		[style]="googleTileStylesIsActive ? googleTileStyles : mapUrl"
+		[zoom]="[5]"
+		[center]="[70.1913, 48.8811]"
+		(click)="addBasestationPoint($event)"
+	>
+		<mgl-geojson-source id="basestation-points" [data]="basestationPoints"> </mgl-geojson-source>
 
-    >
-  </mgl-geojson-source>
+		<mgl-image
+			*ngFor="let iconImage of iconImages"
+			[id]="iconImage.name"
+			[url]="iconImage.url"
+			(loaded)="setLocaded(iconImage)"
+		>
+		</mgl-image>
 
-  <mgl-image
+		<mgl-layer
+			id="points"
+			type="circle"
+			source="basestation-points"
+			[paint]="{
+				'circle-radius': 5,
+				'circle-color': '#000',
+				'circle-stroke-color': 'white',
+				'circle-stroke-width': 1,
+				'circle-opacity': 0.9
+			}"
+		>
+		</mgl-layer>
 
-      *ngFor="let iconImage of iconImages"
-      [id]="iconImage.name"
-      [url]="iconImage.url"
-      (loaded)="setLocaded(iconImage)"
+		<!-- Controls -->
+		<mgl-control position="bottom-left">
+			<div class="panel__layout shrink">
+				<button
+					class="button button-legend"
+					(click)="googleTileStylesIsActive = false"
+					[class.button--primary]="!googleTileStylesIsActive"
+				>
+					OSM
+				</button>
 
-    >
-    </mgl-image>
+				<button
+					class="button button-legend"
+					(click)="googleTileStylesIsActive = true"
+					[class.button--primary]="googleTileStylesIsActive"
+				>
+					Google Maps
+				</button>
+			</div>
+		</mgl-control>
 
-  <mgl-layer
-    id="points"
-    type="circle"
-    source="basestation-points"
-    [paint]="{
-      'circle-radius': 5,
-      'circle-color': '#000',
-      'circle-stroke-color': 'white',
-      'circle-stroke-width': 1,
-      'circle-opacity': 0.9
-    }"
-   >
-  </mgl-layer>
-
-
-  <mgl-control position="bottom-right">
-    <div class="switch">
-      <button
-        class="button button-legend"
-        (click)="googleTileStylesIsActive = false"
-        [class.button--primary]="!googleTileStylesIsActive"
-      >
-        OSM
-      </button>
-
-      <button
-        class="button"
-        (click)="googleTileStylesIsActive = true"
-        [class.button--primary]="googleTileStylesIsActive"
-      >
-        Google Maps
-      </button>
-    </div>
-  </mgl-control>
-</mgl-map>
-
-
-
+    <mgl-control mglScale position="bottom-left"></mgl-control>
+    <mgl-control mglGeolocate position="bottom-left"></mgl-control>
+    <mgl-control mglNavigation position="bottom-left"></mgl-control>
+	</mgl-map>
+</div>
