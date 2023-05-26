@@ -10,8 +10,8 @@ export class LbsService {
 
 	constructor(private readonly http: HttpClient) {}
 
-	addBasestation(basestation: Basestation[]) {
-		return this.http.post(`${this.apiUrl}/base-station`, basestation);
+	addBasestations(basestations: Basestation[]) {
+		return this.http.post(`${this.apiUrl}/base-station`, basestations);
 	}
 
 	getPointAddress(latitude: number, longitude: number, apiKey: string) {
@@ -20,7 +20,7 @@ export class LbsService {
 				fromObject: {
 					latlng: [`${latitude},${longitude}`],
 					key: apiKey,
-          language: 'ru'
+					language: 'ru'
 				}
 			})
 		});

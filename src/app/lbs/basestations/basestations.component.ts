@@ -23,16 +23,25 @@ export class BasestationsComponent implements OnInit {
 
 	isCreateModalOpen: boolean = false;
 	isListModalOpen: boolean = false;
-  fieldsRequired: boolean = false;
+	fieldsRequired: boolean = false;
 
 	apiKey: string;
 
-  basestationForm = new FormGroup({
-		lac: new FormControl({value: null, disabled: !this.fieldsRequired}, this.fieldsRequired ? [Validators.required] : []),
-		cell: new FormControl({value: null, disabled: !this.fieldsRequired}, this.fieldsRequired ? [Validators.required] : []),
+	basestationForm = new FormGroup({
+		lac: new FormControl(
+			{ value: null, disabled: !this.fieldsRequired },
+			this.fieldsRequired ? [Validators.required] : []
+		),
+		cell: new FormControl(
+			{ value: null, disabled: !this.fieldsRequired },
+			this.fieldsRequired ? [Validators.required] : []
+		),
 		radioType: new FormControl(null, [Validators.required]),
 		address: new FormControl(null, [Validators.required]),
-		region: new FormControl({value: null, disabled: !this.fieldsRequired}, this.fieldsRequired ? [Validators.required] : [])
+		region: new FormControl(
+			{ value: null, disabled: !this.fieldsRequired },
+			this.fieldsRequired ? [Validators.required] : []
+		)
 	});
 
 	constructor(private lbsService: LbsService) {}
@@ -70,38 +79,7 @@ export class BasestationsComponent implements OnInit {
 		this.isCreateModalOpen = true;
 	}
 
-	deleteBasestationPoint(latitude: number, longitude: number) {
-		this.addBasestationComponent.deleteBasestationPoint(latitude, longitude);
-	}
-
-	deleteBasestation(basestation: Basestation) {
-		this.basestations = this.basestations.filter(bs => bs !== basestation);
-		this.deleteBasestationPoint(basestation.latitude, basestation.longitude);
-	}
-
-	addBasestations() {
-		this.lbsService.addBasestation(this.basestations).subscribe(() => {
-			this.basestations = [];
-			alert('Данные успешно отправлены');
-		});
-	}
-
-	onCreateModalClosed() {
-		this.isCreateModalOpen = false;
-
-		const { lat: latitude, lng: longitude } = this.latLng;
-		this.deleteBasestationPoint(latitude, longitude);
-	}
-
-	onListModalOpen() {
-		this.isListModalOpen = true;
-	}
-
-	onListModalClosed() {
-		this.isListModalOpen = false;
-	}
-
-	save() {
+	addBasestation() {
 		const { lat: latitude, lng: longitude } = this.latLng;
 		const basestation: Basestation = {
 			...this.basestationForm.value,
@@ -121,32 +99,69 @@ export class BasestationsComponent implements OnInit {
 		});
 	}
 
-  setValidators() {
-    if (this.fieldsRequired) {
-      this.basestationForm.controls['lac'].setValidators([Validators.required]);
-      this.basestationForm.get('lac').enable();
+	addBasestations() {
+		this.lbsService.addBasestations(this.basestations).subscribe(
+			() => {
+				this.basestations = [];
+				alert('Данные успешно отправлены');
+        this.addBasestationComponent.deleteBasestations();
+			},
+			error => {
+				console.log(error);
+			}
+		);
+	}
 
-      this.basestationForm.controls['cell'].setValidators([Validators.required]);
-      this.basestationForm.get('cell').enable();
+	deleteBasestationPoint(latitude: number, longitude: number) {
+		this.addBasestationComponent.deleteBasestationPoint(latitude, longitude);
+	}
 
-      this.basestationForm.controls['region'].setValidators([Validators.required]);
-      this.basestationForm.get('region').enable();
-    } else {
-      this.basestationForm.controls['lac'].clearValidators();
-      this.basestationForm.get('lac').setValue(null);
-      this.basestationForm.get('lac').disable();
-      
-      this.basestationForm.controls['cell'].clearValidators();
-      this.basestationForm.get('cell').setValue(null);
-      this.basestationForm.get('cell').disable();
-      
-      this.basestationForm.controls['region'].clearValidators();
-      this.basestationForm.get('region').setValue(null);
-      this.basestationForm.get('region').disable();
-    }
+	deleteBasestation(basestation: Basestation) {
+		this.basestations = this.basestations.filter(bs => bs !== basestation);
+		this.deleteBasestationPoint(basestation.latitude, basestation.longitude);
+	}
 
-    this.basestationForm.controls['lac'].updateValueAndValidity();
-    this.basestationForm.controls['cell'].updateValueAndValidity();
-    this.basestationForm.controls['region'].updateValueAndValidity();
-  }
+	onListModalOpen() {
+		this.isListModalOpen = true;
+	}
+
+	onCreateModalClosed() {
+		this.isCreateModalOpen = false;
+
+		const { lat: latitude, lng: longitude } = this.latLng;
+		this.deleteBasestationPoint(latitude, longitude);
+	}
+
+	onListModalClosed() {
+		this.isListModalOpen = false;
+	}
+
+	setValidators() {
+		if (this.fieldsRequired) {
+			this.basestationForm.controls['lac'].setValidators([Validators.required]);
+			this.basestationForm.get('lac').enable();
+
+			this.basestationForm.controls['cell'].setValidators([Validators.required]);
+			this.basestationForm.get('cell').enable();
+
+			this.basestationForm.controls['region'].setValidators([Validators.required]);
+			this.basestationForm.get('region').enable();
+		} else {
+			this.basestationForm.controls['lac'].clearValidators();
+			this.basestationForm.get('lac').setValue(null);
+			this.basestationForm.get('lac').disable();
+
+			this.basestationForm.controls['cell'].clearValidators();
+			this.basestationForm.get('cell').setValue(null);
+			this.basestationForm.get('cell').disable();
+
+			this.basestationForm.controls['region'].clearValidators();
+			this.basestationForm.get('region').setValue(null);
+			this.basestationForm.get('region').disable();
+		}
+
+		this.basestationForm.controls['lac'].updateValueAndValidity();
+		this.basestationForm.controls['cell'].updateValueAndValidity();
+		this.basestationForm.controls['region'].updateValueAndValidity();
+	}
 }
