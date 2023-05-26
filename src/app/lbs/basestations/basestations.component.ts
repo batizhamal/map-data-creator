@@ -17,22 +17,23 @@ export class BasestationsComponent implements OnInit {
 	basestations: Basestation[] = [];
 	markOnMap = false;
 
-	basestationForm = new FormGroup({
-		lac: new FormControl(null, [Validators.required]),
-		cell: new FormControl(null, [Validators.required]),
-		radioType: new FormControl(null, [Validators.required]),
-		address: new FormControl(null, [Validators.required]),
-		region: new FormControl(null, [Validators.required])
-	});
-
 	@ViewChild('content', { static: true }) input: ElementRef;
 
 	latLng: LatLng;
 
 	isCreateModalOpen: boolean = false;
 	isListModalOpen: boolean = false;
+  fieldsRequired: boolean = false;
 
 	apiKey: string;
+
+  basestationForm = new FormGroup({
+		lac: new FormControl({value: null, disabled: !this.fieldsRequired}, this.fieldsRequired ? [Validators.required] : []),
+		cell: new FormControl({value: null, disabled: !this.fieldsRequired}, this.fieldsRequired ? [Validators.required] : []),
+		radioType: new FormControl(null, [Validators.required]),
+		address: new FormControl(null, [Validators.required]),
+		region: new FormControl({value: null, disabled: !this.fieldsRequired}, this.fieldsRequired ? [Validators.required] : [])
+	});
 
 	constructor(private lbsService: LbsService) {}
 
@@ -119,4 +120,33 @@ export class BasestationsComponent implements OnInit {
 			region: this.basestationForm.get('region').value
 		});
 	}
+
+  setValidators() {
+    if (this.fieldsRequired) {
+      this.basestationForm.controls['lac'].setValidators([Validators.required]);
+      this.basestationForm.get('lac').enable();
+
+      this.basestationForm.controls['cell'].setValidators([Validators.required]);
+      this.basestationForm.get('cell').enable();
+
+      this.basestationForm.controls['region'].setValidators([Validators.required]);
+      this.basestationForm.get('region').enable();
+    } else {
+      this.basestationForm.controls['lac'].clearValidators();
+      this.basestationForm.get('lac').setValue(null);
+      this.basestationForm.get('lac').disable();
+      
+      this.basestationForm.controls['cell'].clearValidators();
+      this.basestationForm.get('cell').setValue(null);
+      this.basestationForm.get('cell').disable();
+      
+      this.basestationForm.controls['region'].clearValidators();
+      this.basestationForm.get('region').setValue(null);
+      this.basestationForm.get('region').disable();
+    }
+
+    this.basestationForm.controls['lac'].updateValueAndValidity();
+    this.basestationForm.controls['cell'].updateValueAndValidity();
+    this.basestationForm.controls['region'].updateValueAndValidity();
+  }
 }

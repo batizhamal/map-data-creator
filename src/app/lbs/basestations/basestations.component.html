@@ -14,51 +14,101 @@
 		title="Базовая станция"
 		(modalClosed)="onCreateModalClosed()"
 	>
-		<form content [formGroup]="basestationForm">
+		<div content>
 			<div class="field">
-				<div class="field__title bold">Lac:</div>
-				<div class="field__item">
-					<input formControlName="lac" type="text" class="input" name="lac" placeholder="Lac" />
-				</div>
-			</div>
-			<div class="field">
-				<div class="field__title bold">Cell:</div>
-				<div class="field__item">
-					<input formControlName="cell" type="text" class="input" name="cell" placeholder="Cell" />
-				</div>
-			</div>
-			<div class="field">
-				<div class="field__title bold">Код региона:</div>
-				<div class="field__item">
-					<input formControlName="region" type="text" class="input" name="region" placeholder="Код региона" />
+				<div class="callout callout--tip">
+					<div class="flex flex-dr flex-jc-sb">
+						<div>Обязательность полей Lac, Cell, Код региона</div>
+						<label class="switch">
+							<input type="checkbox" [(ngModel)]="fieldsRequired" (change)="setValidators()" />
+							<span class="slider round"></span>
+						</label>
+					</div>
 				</div>
 			</div>
 
-			<div class="field">
-				<div class="field__title bold">Выберите тип:</div>
-				<div class="field__item">
-					<input value="LTE" formControlName="radioType" type="radio" id="LTE" />
-					<label for="LTE"> LTE </label>
+			<form [formGroup]="basestationForm">
+				<div class="field">
+					<div class="field__title bold">Lac:</div>
+					<div class="field__item">
+						<input
+							formControlName="lac"
+							type="text"
+							class="input"
+							name="lac"
+							placeholder="Lac"
+						/>
+					</div>
 				</div>
-				<div class="field__item">
-					<input value="GSM" formControlName="radioType" type="radio" id="GSM" checked />
-					<label for="GSM"> GSM </label>
+				<div class="field">
+					<div class="field__title bold">Cell:</div>
+					<div class="field__item">
+						<input
+							formControlName="cell"
+							type="text"
+							class="input"
+							name="cell"
+							placeholder="Cell"
+						/>
+					</div>
 				</div>
-			</div>
+				<div class="field">
+					<div class="field__title bold">Код региона:</div>
+					<div class="field__item">
+						<input
+							formControlName="region"
+							type="text"
+							class="input"
+							name="region"
+							placeholder="Код региона"
+						/>
+					</div>
+				</div>
 
-			<div class="field">
-				<div class="field__title bold">Адрес:</div>
-				<div class="field__item">
-					<textarea
-						formControlName="address"
-						type="text"
-						class="textarea"
-						name="address"
-						placeholder="Адрес"
-					></textarea>
+				<div class="field">
+					<div class="field__title bold">Выберите тип:</div>
+					<div class="field__item">
+						<label class="radio">
+							<input
+								class="radio__radio-button"
+								value="LTE"
+								formControlName="radioType"
+								type="radio"
+								id="LTE"
+							/>
+							<span class="radio__checkmark"></span>
+							<span class="radio__title">LTE</span>
+						</label>
+					</div>
+					<div class="field__item">
+						<label class="radio mb-0">
+							<input
+								class="radio__radio-button"
+								value="GSM"
+								formControlName="radioType"
+								type="radio"
+								id="GSM"
+							/>
+							<span class="radio__checkmark"></span>
+							<span class="radio__title">GSM</span>
+						</label>
+					</div>
 				</div>
-			</div>
-		</form>
+
+				<div class="field">
+					<div class="field__title bold">Адрес:</div>
+					<div class="field__item">
+						<textarea
+							formControlName="address"
+							type="text"
+							class="textarea"
+							name="address"
+							placeholder="Адрес"
+						></textarea>
+					</div>
+				</div>
+			</form>
+		</div>
 
 		<button
 			footer
@@ -91,13 +141,13 @@
 				<tbody class="table__tbody">
 					<tr class="table__row" *ngFor="let basestation of basestations; let i = index">
 						<th class="table__th" scope="row">{{ i + 1 }}</th>
-						<td class="table__td">{{ basestation.address }}</td>
-						<td class="table__td">{{ basestation.region }}</td>
-						<td class="table__td">{{ basestation.radioType }}</td>
-						<td class="table__td">{{ basestation.lac }}</td>
-						<td class="table__td">{{ basestation.cell }}</td>
-						<td class="table__td">{{ basestation.latitude }}</td>
-						<td class="table__td">{{ basestation.longitude }}</td>
+						<td class="table__td">{{ basestation.address || '-' }}</td>
+						<td class="table__td">{{ basestation.region || '-' }}</td>
+						<td class="table__td">{{ basestation.radioType || '-' }}</td>
+						<td class="table__td">{{ basestation.lac || '-' }}</td>
+						<td class="table__td">{{ basestation.cell || '-' }}</td>
+						<td class="table__td">{{ basestation.latitude || '-' }}</td>
+						<td class="table__td">{{ basestation.longitude || '-' }}</td>
 						<td class="table__td">
 							<button (click)="deleteBasestation(basestation)" class="button button--warn">
 								Удалить
