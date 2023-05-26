@@ -1,7 +1,11 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import * as turf from '@turf/turf';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { Feature, FeatureCollection, GeometryCollection, Point } from '@turf/turf';
+import { LngLat } from 'mapbox-gl';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 export class GoogleTiles {
   version = 8;

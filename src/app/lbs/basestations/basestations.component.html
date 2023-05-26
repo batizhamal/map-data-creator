@@ -1,171 +1,94 @@
-<div class="basestations">
-	<div class="header">Mock-LBS API</div>
-
-	<div class="toolbar">
-		<button class="button button-legend button--primary" type="button" (click)="onListModalOpen()">Список</button>
-		<input [(ngModel)]="apiKey" type="text" class="input toolbar__input" name="apiKey" placeholder="API Key" />
-	</div>
-
-	<app-add-basestation class="map-wrapper" (markPoint)="setLngLat($event)"> </app-add-basestation>
-
-	<app-modal
-		*ngIf="isCreateModalOpen"
-		class="modal-wrapper"
-		title="Базовая станция"
-		(modalClosed)="onCreateModalClosed()"
-	>
-		<div content>
-			<div class="field">
-				<div class="callout callout--tip">
-					<div class="flex flex-dr flex-jc-sb">
-						<div>Обязательность полей Lac, Cell, Код региона</div>
-						<label class="switch">
-							<input type="checkbox" [(ngModel)]="fieldsRequired" (change)="setValidators()" />
-							<span class="slider round"></span>
-						</label>
-					</div>
-				</div>
-			</div>
-
-			<form [formGroup]="basestationForm">
-				<div class="field">
-					<div class="field__title bold">Lac:</div>
-					<div class="field__item">
-						<input
-							formControlName="lac"
-							type="text"
-							class="input"
-							name="lac"
-							placeholder="Lac"
-						/>
-					</div>
-				</div>
-				<div class="field">
-					<div class="field__title bold">Cell:</div>
-					<div class="field__item">
-						<input
-							formControlName="cell"
-							type="text"
-							class="input"
-							name="cell"
-							placeholder="Cell"
-						/>
-					</div>
-				</div>
-				<div class="field">
-					<div class="field__title bold">Код региона:</div>
-					<div class="field__item">
-						<input
-							formControlName="region"
-							type="text"
-							class="input"
-							name="region"
-							placeholder="Код региона"
-						/>
-					</div>
-				</div>
-
-				<div class="field">
-					<div class="field__title bold">Выберите тип:</div>
-					<div class="field__item">
-						<label class="radio">
-							<input
-								class="radio__radio-button"
-								value="LTE"
-								formControlName="radioType"
-								type="radio"
-								id="LTE"
-							/>
-							<span class="radio__checkmark"></span>
-							<span class="radio__title">LTE</span>
-						</label>
-					</div>
-					<div class="field__item">
-						<label class="radio mb-0">
-							<input
-								class="radio__radio-button"
-								value="GSM"
-								formControlName="radioType"
-								type="radio"
-								id="GSM"
-							/>
-							<span class="radio__checkmark"></span>
-							<span class="radio__title">GSM</span>
-						</label>
-					</div>
-				</div>
-
-				<div class="field">
-					<div class="field__title bold">Адрес:</div>
-					<div class="field__item">
-						<textarea
-							formControlName="address"
-							type="text"
-							class="textarea"
-							name="address"
-							placeholder="Адрес"
-						></textarea>
-					</div>
-				</div>
-			</form>
-		</div>
-
-		<button
-			footer
-			[disabled]="basestationForm.invalid"
-			type="button"
-			class="button button--primary button-legend"
-			(click)="save()"
-		>
-			Сохранить
-		</button>
-	</app-modal>
-
-	<app-modal *ngIf="isListModalOpen" class="modal-wrapper" title="Список" (modalClosed)="onListModalClosed()">
-		<div content>
-			<span *ngIf="!basestations.length" class="warn">Список пуст, добавьте точки на карте</span>
-
-			<table *ngIf="basestations.length" class="table table--zebra-striped">
-				<thead class="table__thead">
-					<tr class="table__row">
-						<th class="table__th bold" scope="col">#</th>
-						<th class="table__th bold" scope="col">Адрес</th>
-						<th class="table__th bold" scope="col">Код региона</th>
-						<th class="table__th bold" scope="col">Тип</th>
-						<th class="table__th bold" scope="col">Lac</th>
-						<th class="table__th bold" scope="col">Cell</th>
-						<th class="table__th bold" scope="col">Широта</th>
-						<th class="table__th bold" scope="col">Долгота</th>
-					</tr>
-				</thead>
-				<tbody class="table__tbody">
-					<tr class="table__row" *ngFor="let basestation of basestations; let i = index">
-						<th class="table__th" scope="row">{{ i + 1 }}</th>
-						<td class="table__td">{{ basestation.address || '-' }}</td>
-						<td class="table__td">{{ basestation.region || '-' }}</td>
-						<td class="table__td">{{ basestation.radioType || '-' }}</td>
-						<td class="table__td">{{ basestation.lac || '-' }}</td>
-						<td class="table__td">{{ basestation.cell || '-' }}</td>
-						<td class="table__td">{{ basestation.latitude || '-' }}</td>
-						<td class="table__td">{{ basestation.longitude || '-' }}</td>
-						<td class="table__td">
-							<button (click)="deleteBasestation(basestation)" class="button button--warn">
-								Удалить
-							</button>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-
-		<button
-			footer
-			[disabled]="!basestations.length"
-			(click)="addBasestations()"
-			type="button"
-			class="button button-legend button--primary"
-		>
-			Отправить данные
-		</button>
-	</app-modal>
+<div class="container">
+  <header>
+    <div class="px-3 py-2 bg-dark text-white">
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+          Mock LBS api
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="card">
+    <div class="card-body">
+      <button *ngIf="basestations.length" (click)="addBasestations()"  type="button" class="btn btn-success m-1">Отправить данные</button>
+    </div>
+  </div>
+  <app-add-basestation (markPoint)="setLngLat($event)" > </app-add-basestation>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Адрес</th>
+        <th scope="col">код Региона</th>
+        <th scope="col">Тип</th>
+        <th scope="col">Lac</th>
+        <th scope="col">Cell</th>
+        <th scope="col">Широта</th>
+        <th scope="col">Долгота</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let basestation of basestations; let i = index">
+        <th scope="row"> {{ i + 1 }} </th>
+        <td>{{ basestation.address }}</td>
+        <td>{{ basestation.region }}</td>
+        <td>{{ basestation.radioType }}</td>
+        <td>{{ basestation.lac }}</td>
+        <td>{{ basestation.cell }}</td>
+        <td>{{ basestation.latitude }}</td>
+        <td>{{ basestation.longitude }}</td>
+        <td><button (click)="deleteBasestation(basestation)" class="btn btn-danger">Удалить</button></td>
+      </tr>
+    </tbody>
+  </table>
 </div>
+
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Базовая станция</h4>
+    <button type="button" class="btn btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      Закрыть
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="basestationForm">
+      <div class="form-group">
+        <label for="lac" class="col-form-label">Lac:</label>
+        <input formControlName="lac"  type="number" class="form-control" id="lac">
+      </div>
+      <div class="form-group">
+        <label for="cell" class="col-form-label">Cell:</label>
+        <input  formControlName="cell" type="number" class="form-control" id="cell">
+      </div>
+      <div class="form-group">
+        <label for="cell" class="col-form-label">Код региона:</label>
+        <input  formControlName="region" type="number" class="form-control" id="region">
+      </div>
+      <div class="form-group">
+        <label >Выберите тип:</label>
+        <div class="form-check">
+          <input class="form-check-input" value="LTE" type="radio" formControlName="radioType" id="LTE"/>
+          <label class="form-check-label" for="LTE"> LTE </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" value="GSM"   formControlName="radioType" type="radio" id="GSM" checked/>
+          <label class="form-check-label" for="GSM"> GSM </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="address"  class="col-form-label">Адрес:</label>
+        <textarea formControlName="address" class="form-control" id="address"></textarea>
+      </div>
+    </form>
+
+
+
+  </div>
+  <div class="modal-footer">
+    <button [disabled]="basestationForm.invalid" type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Сохранить</button>
+  </div>
+</ng-template>
+
+

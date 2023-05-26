@@ -8,11 +8,23 @@ import { HttpClientModule } from '@angular/common/http';
 import { BasestationsComponent } from './basestations/basestations.component';
 import { LbsService } from './lbs.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ModalComponent } from './components/modal/modal.component';
+
+
 
 @NgModule({
-	declarations: [LbsComponent, AddBasestationComponent, BasestationsComponent, ModalComponent],
-	imports: [CommonModule, LbsRoutingModule, NgxMapboxGLModule, HttpClientModule, FormsModule, ReactiveFormsModule],
-	providers: [LbsService]
+  declarations: [
+    LbsComponent,
+    AddBasestationComponent,
+    BasestationsComponent
+  ],
+  imports: [
+    CommonModule,
+    LbsRoutingModule,
+    NgxMapboxGLModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  providers: [LbsService]
 })
-export class LbsModule {}
+export class LbsModule { }

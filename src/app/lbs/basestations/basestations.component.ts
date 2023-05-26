@@ -1,152 +1,101 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddBasestationComponent, LatLng } from '../add-basestation/add-basestation.component';
 import { LbsService } from '../lbs.service';
 import { Basestation } from '../model/basestation';
 
 @Component({
-	selector: 'app-basestations',
-	templateUrl: './basestations.component.html',
-	styleUrls: ['./basestations.component.scss']
+  selector: 'app-basestations',
+  templateUrl: './basestations.component.html',
+  styleUrls: ['./basestations.component.scss']
 })
 export class BasestationsComponent implements OnInit {
-	@ViewChild(AddBasestationComponent, { static: false })
-	private addBasestationComponent: AddBasestationComponent | undefined;
 
-	closeResult = '';
-	basestations: Basestation[] = [];
-	markOnMap = false;
+  @ViewChild(AddBasestationComponent, {static: false})
+  private addBasestationComponent: AddBasestationComponent|undefined;
 
-	@ViewChild('content', { static: true }) input: ElementRef;
-
-	latLng: LatLng;
-
-	isCreateModalOpen: boolean = false;
-	isListModalOpen: boolean = false;
-  fieldsRequired: boolean = false;
-
-	apiKey: string;
+  closeResult = '';
+  basestations: Basestation[] = [];
+  markOnMap = false;
 
   basestationForm = new FormGroup({
-		lac: new FormControl({value: null, disabled: !this.fieldsRequired}, this.fieldsRequired ? [Validators.required] : []),
-		cell: new FormControl({value: null, disabled: !this.fieldsRequired}, this.fieldsRequired ? [Validators.required] : []),
-		radioType: new FormControl(null, [Validators.required]),
-		address: new FormControl(null, [Validators.required]),
-		region: new FormControl({value: null, disabled: !this.fieldsRequired}, this.fieldsRequired ? [Validators.required] : [])
-	});
+    lac: new FormControl(null, [Validators.required]),
+    cell: new FormControl(null, [Validators.required]),
+    radioType: new FormControl(null, [Validators.required]),
+    address: new FormControl(null, [Validators.required]),
+    region: new FormControl(null, [Validators.required])
+  })
 
-	constructor(private lbsService: LbsService) {}
+  @ViewChild("content", { static: true }) input: ElementRef;
 
-	ngOnInit(): void {}
 
-	get address() {
-		return this.basestationForm.get('address');
-	}
 
-	setLngLat(latLng: LatLng) {
-		this.latLng = latLng;
+  latLng: LatLng;
 
-		if (this.apiKey) {
-			// If api key is entered, get the address from Google Geolocating API
+  constructor(
+    private modalService: NgbModal,
+    private lbsService: LbsService
+  ) { }
 
-			this.lbsService.getPointAddress(this.latLng.lat, this.latLng.lng, this.apiKey).subscribe(
-				data => {
-					const address = data?.['results']?.[0]?.['formatted_address'];
-
-					this.basestationForm.setValue({
-						address: address,
-						lac: this.basestationForm.get('lac').value,
-						cell: this.basestationForm.get('cell').value,
-						radioType: this.basestationForm.get('radioType').value,
-						region: this.basestationForm.get('region').value
-					});
-				},
-				error => {
-					console.log(error);
-				}
-			);
-		}
-
-		this.isCreateModalOpen = true;
-	}
-
-	deleteBasestationPoint(latitude: number, longitude: number) {
-		this.addBasestationComponent.deleteBasestationPoint(latitude, longitude);
-	}
-
-	deleteBasestation(basestation: Basestation) {
-		this.basestations = this.basestations.filter(bs => bs !== basestation);
-		this.deleteBasestationPoint(basestation.latitude, basestation.longitude);
-	}
-
-	addBasestations() {
-		this.lbsService.addBasestation(this.basestations).subscribe(() => {
-			this.basestations = [];
-			alert('Данные успешно отправлены');
-		});
-	}
-
-	onCreateModalClosed() {
-		this.isCreateModalOpen = false;
-
-		const { lat: latitude, lng: longitude } = this.latLng;
-		this.deleteBasestationPoint(latitude, longitude);
-	}
-
-	onListModalOpen() {
-		this.isListModalOpen = true;
-	}
-
-	onListModalClosed() {
-		this.isListModalOpen = false;
-	}
-
-	save() {
-		const { lat: latitude, lng: longitude } = this.latLng;
-		const basestation: Basestation = {
-			...this.basestationForm.value,
-			latitude,
-			longitude
-		};
-		this.basestations.push(basestation);
-		this.latLng = null;
-		this.isCreateModalOpen = false;
-
-		this.basestationForm.setValue({
-			address: '',
-			lac: this.basestationForm.get('lac').value,
-			cell: this.basestationForm.get('cell').value,
-			radioType: this.basestationForm.get('radioType').value,
-			region: this.basestationForm.get('region').value
-		});
-	}
-
-  setValidators() {
-    if (this.fieldsRequired) {
-      this.basestationForm.controls['lac'].setValidators([Validators.required]);
-      this.basestationForm.get('lac').enable();
-
-      this.basestationForm.controls['cell'].setValidators([Validators.required]);
-      this.basestationForm.get('cell').enable();
-
-      this.basestationForm.controls['region'].setValidators([Validators.required]);
-      this.basestationForm.get('region').enable();
-    } else {
-      this.basestationForm.controls['lac'].clearValidators();
-      this.basestationForm.get('lac').setValue(null);
-      this.basestationForm.get('lac').disable();
-      
-      this.basestationForm.controls['cell'].clearValidators();
-      this.basestationForm.get('cell').setValue(null);
-      this.basestationForm.get('cell').disable();
-      
-      this.basestationForm.controls['region'].clearValidators();
-      this.basestationForm.get('region').setValue(null);
-      this.basestationForm.get('region').disable();
-    }
-
-    this.basestationForm.controls['lac'].updateValueAndValidity();
-    this.basestationForm.controls['cell'].updateValueAndValidity();
-    this.basestationForm.controls['region'].updateValueAndValidity();
+  ngOnInit(): void {
   }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  get address() {
+    return this.basestationForm.get('address');
+  }
+
+
+  open(content) {
+    const {lat: latitude, lng: longitude} = this.latLng;
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'}).result.then((result) => {
+
+
+      const basestation: Basestation = {
+        ...this.basestationForm.value,
+        latitude,
+        longitude
+      }
+      this.basestations.push(basestation);
+      this.latLng = null;
+
+
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.deleteBasestationPoint(latitude, longitude)
+    });
+  }
+
+  setLngLat(latLng: LatLng) {
+    this.latLng = latLng;
+    this.open(this.input);
+  }
+
+  deleteBasestationPoint(latitude: number, longitude: number) {
+    this.addBasestationComponent.deleteBasestationPoint(latitude, longitude);
+  }
+
+  deleteBasestation(basestation: Basestation) {
+    this.basestations = this.basestations.filter(bs => bs !== basestation);
+    this.deleteBasestationPoint(basestation.latitude, basestation.longitude);
+  }
+
+
+  addBasestations() {
+    this.lbsService.addBasestation(this.basestations).subscribe(() => {
+      this.basestations = [];
+      alert('Данные успешно отправлены');
+    })
+  }
+
 }
