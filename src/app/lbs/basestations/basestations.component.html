@@ -2,16 +2,8 @@
 	<div class="header">Mock-LBS API</div>
 
 	<div class="toolbar">
-		<button
-			[disabled]="!basestations.length"
-			(click)="addBasestations()"
-			type="button"
-			class="button button-legend button--primary"
-		>
-			Отправить данные
-		</button>
-		<button class="button button-legend" type="button" (click)="onListModalOpen()">Список</button>
-		<input [(ngModel)]="apiKey" type="text" class="input toolbar__input" name="apiKey" placeholder="API Key">
+		<button class="button button-legend button--primary" type="button" (click)="onListModalOpen()">Список</button>
+		<input [(ngModel)]="apiKey" type="text" class="input toolbar__input" name="apiKey" placeholder="API Key" />
 	</div>
 
 	<app-add-basestation class="map-wrapper" (markPoint)="setLngLat($event)"> </app-add-basestation>
@@ -80,32 +72,50 @@
 	</app-modal>
 
 	<app-modal *ngIf="isListModalOpen" class="modal-wrapper" title="Список" (modalClosed)="onListModalClosed()">
-		<table content class="table table--zebra-striped">
-			<thead class="table__thead">
-				<tr class="table__row">
-					<th class="table__th bold" scope="col">#</th>
-					<th class="table__th bold" scope="col">Адрес</th>
-					<th class="table__th bold" scope="col">Код региона</th>
-					<th class="table__th bold" scope="col">Тип</th>
-					<th class="table__th bold" scope="col">Lac</th>
-					<th class="table__th bold" scope="col">Cell</th>
-					<th class="table__th bold" scope="col">Широта</th>
-					<th class="table__th bold" scope="col">Долгота</th>
-				</tr>
-			</thead>
-			<tbody class="table__tbody">
-				<tr class="table__row" *ngFor="let basestation of basestations; let i = index">
-					<th class="table__th" scope="row">{{ i + 1 }}</th>
-					<td class="table__td" >{{ basestation.address }}</td>
-					<td class="table__td">{{ basestation.region }}</td>
-					<td class="table__td">{{ basestation.radioType }}</td>
-					<td class="table__td">{{ basestation.lac }}</td>
-					<td class="table__td">{{ basestation.cell }}</td>
-					<td class="table__td">{{ basestation.latitude }}</td>
-					<td class="table__td">{{ basestation.longitude }}</td>
-					<td class="table__td"><button (click)="deleteBasestation(basestation)" class="button button--warn">Удалить</button></td>
-				</tr>
-			</tbody>
-		</table>
+		<div content>
+			<span *ngIf="!basestations.length" class="warn">Список пуст, добавьте точки на карте</span>
+
+			<table *ngIf="basestations.length" class="table table--zebra-striped">
+				<thead class="table__thead">
+					<tr class="table__row">
+						<th class="table__th bold" scope="col">#</th>
+						<th class="table__th bold" scope="col">Адрес</th>
+						<th class="table__th bold" scope="col">Код региона</th>
+						<th class="table__th bold" scope="col">Тип</th>
+						<th class="table__th bold" scope="col">Lac</th>
+						<th class="table__th bold" scope="col">Cell</th>
+						<th class="table__th bold" scope="col">Широта</th>
+						<th class="table__th bold" scope="col">Долгота</th>
+					</tr>
+				</thead>
+				<tbody class="table__tbody">
+					<tr class="table__row" *ngFor="let basestation of basestations; let i = index">
+						<th class="table__th" scope="row">{{ i + 1 }}</th>
+						<td class="table__td">{{ basestation.address }}</td>
+						<td class="table__td">{{ basestation.region }}</td>
+						<td class="table__td">{{ basestation.radioType }}</td>
+						<td class="table__td">{{ basestation.lac }}</td>
+						<td class="table__td">{{ basestation.cell }}</td>
+						<td class="table__td">{{ basestation.latitude }}</td>
+						<td class="table__td">{{ basestation.longitude }}</td>
+						<td class="table__td">
+							<button (click)="deleteBasestation(basestation)" class="button button--warn">
+								Удалить
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<button
+			footer
+			[disabled]="!basestations.length"
+			(click)="addBasestations()"
+			type="button"
+			class="button button-legend button--primary"
+		>
+			Отправить данные
+		</button>
 	</app-modal>
 </div>
