@@ -1,28 +1,18 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Basestation } from './model/basestation';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class LbsService {
-	private apiUrl = 'v1';
 
-	constructor(private readonly http: HttpClient) {}
+  private apiUrl = 'v1';
 
-	addBasestation(basestation: Basestation[]) {
-		return this.http.post(`${this.apiUrl}/base-station`, basestation);
-	}
+  constructor(private readonly _http: HttpClient) { }
 
-	getPointAddress(latitude: number, longitude: number, apiKey: string) {
-		return this.http.get('https://maps.googleapis.com/maps/api/geocode/json', {
-			params: new HttpParams({
-				fromObject: {
-					latlng: [`${latitude},${longitude}`],
-					key: apiKey,
-          language: 'ru'
-				}
-			})
-		});
-	}
+  addBasestation(basestation: Basestation[]) {
+    return this._http.post(`${this.apiUrl}/base-station`, basestation);
+  }
+
 }
