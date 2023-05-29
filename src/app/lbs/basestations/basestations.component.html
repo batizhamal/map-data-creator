@@ -37,44 +37,48 @@
 							class="input"
 							name="lac"
 							placeholder="Lac"
+							(change)="onchange()"
 						/>
 					</div>
+					<small *ngIf="basestationForm.controls.lac.touched && basestationForm.controls.lac.errors?.required" class="field__error">Поле Lac обязательно</small>
 				</div>
 				<div class="field">
 					<div class="field__title bold">Cell:</div>
 					<div class="field__item">
 						<input
-							formControlName="cell"
-							type="text"
-							class="input"
-							name="cell"
-							placeholder="Cell"
+						formControlName="cell"
+						type="text"
+						class="input"
+						name="cell"
+						placeholder="Cell"
 						/>
 					</div>
+					<small *ngIf="basestationForm.controls.cell.touched && basestationForm.controls.cell.errors?.required" class="field__error">Поле Cell обязательно</small>
 				</div>
 				<div class="field">
 					<div class="field__title bold">Код региона:</div>
 					<div class="field__item">
 						<input
-							formControlName="region"
-							type="text"
-							class="input"
-							name="region"
-							placeholder="Код региона"
+						formControlName="region"
+						type="text"
+						class="input"
+						name="region"
+						placeholder="Код региона"
 						/>
 					</div>
+					<small *ngIf="basestationForm.controls.region.touched && basestationForm.controls.region.errors?.required" class="field__error">Поле Код региона обязательно</small>
 				</div>
-
+				
 				<div class="field">
 					<div class="field__title bold">Выберите тип:</div>
 					<div class="field__item">
 						<label class="radio">
 							<input
-								class="radio__radio-button"
-								value="LTE"
-								formControlName="radioType"
-								type="radio"
-								id="LTE"
+							class="radio__radio-button"
+							value="LTE"
+							formControlName="radioType"
+							type="radio"
+							id="LTE"
 							/>
 							<span class="radio__checkmark"></span>
 							<span class="radio__title">LTE</span>
@@ -83,36 +87,37 @@
 					<div class="field__item">
 						<label class="radio mb-0">
 							<input
-								class="radio__radio-button"
-								value="GSM"
-								formControlName="radioType"
-								type="radio"
-								id="GSM"
+							class="radio__radio-button"
+							value="GSM"
+							formControlName="radioType"
+							type="radio"
+							id="GSM"
 							/>
 							<span class="radio__checkmark"></span>
 							<span class="radio__title">GSM</span>
 						</label>
 					</div>
+					<small *ngIf="basestationForm.controls.radioType.touched && basestationForm.controls.radioType.errors?.required" class="field__error">Поле Тип обязательно</small>
 				</div>
-
+				
 				<div class="field">
 					<div class="field__title bold">Адрес:</div>
 					<div class="field__item">
 						<textarea
-							formControlName="address"
-							type="text"
-							class="textarea"
-							name="address"
-							placeholder="Адрес"
+						formControlName="address"
+						type="text"
+						class="textarea"
+						name="address"
+						placeholder="Адрес"
 						></textarea>
 					</div>
+					<small *ngIf="basestationForm.controls.address.touched && basestationForm.controls.address.errors?.required" class="field__error">Поле Адрес обязательно</small>
 				</div>
 			</form>
 		</div>
 
 		<button
 			footer
-			[disabled]="basestationForm.invalid"
 			type="button"
 			class="button button--primary button-legend"
 			(click)="addBasestation()"

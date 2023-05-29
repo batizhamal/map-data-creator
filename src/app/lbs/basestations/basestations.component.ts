@@ -80,23 +80,27 @@ export class BasestationsComponent implements OnInit {
 	}
 
 	addBasestation() {
-		const { lat: latitude, lng: longitude } = this.latLng;
-		const basestation: Basestation = {
-			...this.basestationForm.value,
-			latitude,
-			longitude
-		};
-		this.basestations.push(basestation);
-		this.latLng = null;
-		this.isCreateModalOpen = false;
+		this.basestationForm.markAllAsTouched();
 
-		this.basestationForm.setValue({
-			address: '',
-			lac: this.basestationForm.get('lac').value,
-			cell: this.basestationForm.get('cell').value,
-			radioType: this.basestationForm.get('radioType').value,
-			region: this.basestationForm.get('region').value
-		});
+		if (this.basestationForm.valid) {
+			const { lat: latitude, lng: longitude } = this.latLng;
+			const basestation: Basestation = {
+				...this.basestationForm.value,
+				latitude,
+				longitude
+			};
+			this.basestations.push(basestation);
+			this.latLng = null;
+			this.isCreateModalOpen = false;
+
+			this.basestationForm.setValue({
+				address: '',
+				lac: this.basestationForm.get('lac').value,
+				cell: this.basestationForm.get('cell').value,
+				radioType: this.basestationForm.get('radioType').value,
+				region: this.basestationForm.get('region').value
+			});
+		}
 	}
 
 	addBasestations() {
@@ -104,7 +108,7 @@ export class BasestationsComponent implements OnInit {
 			() => {
 				this.basestations = [];
 				alert('Данные успешно отправлены');
-        this.addBasestationComponent.deleteBasestations();
+				this.addBasestationComponent.deleteBasestations();
 			},
 			error => {
 				console.log(error);
@@ -163,5 +167,8 @@ export class BasestationsComponent implements OnInit {
 		this.basestationForm.controls['lac'].updateValueAndValidity();
 		this.basestationForm.controls['cell'].updateValueAndValidity();
 		this.basestationForm.controls['region'].updateValueAndValidity();
+	}
+	onchange() {
+		console.log(this.basestationForm);
 	}
 }
