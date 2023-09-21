@@ -1,5 +1,5 @@
 <div class="basestations">
-	<div class="header">Mock-LBS API</div>
+	<div class="header">Map Data Creator</div>
 
 	<div class="toolbar">
 		<button class="button button-legend button--primary" type="button" (click)="onListModalOpen()">Список</button>
@@ -11,14 +11,14 @@
 	<app-modal
 		*ngIf="isCreateModalOpen"
 		class="modal-wrapper"
-		title="Базовая станция"
+		title="Map Point"
 		(modalClosed)="onCreateModalClosed()"
 	>
 		<div content>
 			<div class="field">
 				<div class="callout callout--tip">
 					<div class="flex flex-dr flex-jc-sb">
-						<div>Обязательность полей Lac, Cell, Код региона</div>
+						<div>Обязательность полей L, C, K</div>
 						<label class="switch">
 							<input type="checkbox" [(ngModel)]="fieldsRequired" (change)="setValidators()" />
 							<span class="slider round"></span>
@@ -29,41 +29,41 @@
 
 			<form [formGroup]="basestationForm">
 				<div class="field">
-					<div class="field__title bold">Lac:</div>
+					<div class="field__title bold">L:</div>
 					<div class="field__item">
 						<input
 							formControlName="lac"
 							type="text"
 							class="input"
 							name="lac"
-							placeholder="Lac"
+							placeholder="L"
 							(change)="onchange()"
 						/>
 					</div>
 					<small *ngIf="basestationForm.controls.lac.touched && basestationForm.controls.lac.errors?.required" class="field__error">Поле Lac обязательно</small>
 				</div>
 				<div class="field">
-					<div class="field__title bold">Cell:</div>
+					<div class="field__title bold">C:</div>
 					<div class="field__item">
 						<input
 						formControlName="cell"
 						type="text"
 						class="input"
 						name="cell"
-						placeholder="Cell"
+						placeholder="C"
 						/>
 					</div>
 					<small *ngIf="basestationForm.controls.cell.touched && basestationForm.controls.cell.errors?.required" class="field__error">Поле Cell обязательно</small>
 				</div>
 				<div class="field">
-					<div class="field__title bold">Код региона:</div>
+					<div class="field__title bold">K:</div>
 					<div class="field__item">
 						<input
 						formControlName="region"
 						type="text"
 						class="input"
 						name="region"
-						placeholder="Код региона"
+						placeholder="K"
 						/>
 					</div>
 					<small *ngIf="basestationForm.controls.region.touched && basestationForm.controls.region.errors?.required" class="field__error">Поле Код региона обязательно</small>
@@ -81,7 +81,7 @@
 							id="LTE"
 							/>
 							<span class="radio__checkmark"></span>
-							<span class="radio__title">LTE</span>
+							<span class="radio__title">Type 1</span>
 						</label>
 					</div>
 					<div class="field__item">
@@ -94,7 +94,7 @@
 							id="GSM"
 							/>
 							<span class="radio__checkmark"></span>
-							<span class="radio__title">GSM</span>
+							<span class="radio__title">Type 2</span>
 						</label>
 					</div>
 					<small *ngIf="basestationForm.controls.radioType.touched && basestationForm.controls.radioType.errors?.required" class="field__error">Поле Тип обязательно</small>
