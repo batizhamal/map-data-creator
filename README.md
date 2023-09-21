@@ -1,6 +1,6 @@
 # Map Data Creator
 ## Demo
-![Map Data Creator Demo](https://github.com/batizhamal/map-data-creator/assets/52880286/adcf945a-2521-4f59-ae54-3ee124726ca2)
+![Map Data Creator Demo](https://github.com/batizhamal/map-data-creator/assets/52880286/e727f6ea-f8ef-4ea1-898d-5df2cea699d6)
 
 ## Description
 An application to generate mock map data for enhancing current working project functionality with an ability to obtain location information by interacting with the map.
